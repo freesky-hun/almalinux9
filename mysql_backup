@@ -1,0 +1,21 @@
+#!/bin/bash
+
+mysql_user="your_mysql_user"
+mysql_password="your_mysql_password"
+mysql_databases=("db1" "db2" "db3") # Add your databases to the array
+backup_directory="/your/backup/folder/"
+delete_time=$(date -d "31 days ago" "+%Y%m%d")
+
+# Create a backup for each database in the array
+for db_name in "${mysql_databases[@]}"; do
+    backup_file="${backup_directory}${db_name}_backup_$(date +%Y%m%d%H%M%S).sql"
+
+    # Run mysqldump with sudo for each database
+    if sudo mysqldump -u "$mysql_user" -p"$mysql_password" "$db_name" > "$backup_file"; then
+        logger -t backup -p local0.info "MySQL database backup successful: $backup_file"
+    else
+        logger -t backup -p local0.crit "Failed to backup MySQL database: $db_name"
+    fi
+done
+
+rm -R $backup_directory/*$delete_time*.sql
