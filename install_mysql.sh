@@ -1,3 +1,5 @@
+#!/bin/bash
+
 new_mysql_user="new_user_name"
 new_mysql_user_password="new_user_password"
 new_databese_name="new_databese_name"
