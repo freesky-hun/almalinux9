@@ -8,7 +8,7 @@ fi
 
 # List available drives
 echo "Available drives:"
-lsblk -o NAME,SIZE -d -n
+fdisk -l
 
 # Prompt the user to select a drive
 read -p "Enter the drive you want to partition (e.g., /dev/sdX): " drive
